@@ -1,3 +1,7 @@
+## Libraries
+
+This project uses React.js, leaflet, and bootstrap for the client-side code.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
