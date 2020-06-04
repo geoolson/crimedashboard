@@ -4,6 +4,11 @@ This project uses React.js, leaflet, and bootstrap for the client-side code.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Installation
+
+npm install
+npm i leaflet
+
 ## Available Scripts
 
 In the project directory, you can run:
