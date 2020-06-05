@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 
-const Header = () => {
+const Header = props => {
+  const {position, setPosition} = props;
   return (
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand href="#home">
@@ -10,16 +11,28 @@ const Header = () => {
       </Navbar.Brand>
       <Nav className="mr-auto">
       </Nav>
-      <Form inline >
-        <FormControl type="text" placeholder="Current Location" className="mr-sm-2" />
-        <Button variant="outline-info">Search</Button>
+      <Form inline
+        onSubmit={e => {
+          e.preventDefault();
+          const zipCode = document.getElementById('zip_field').value;
+          fetch('http://localhost:8080/search/' + zipCode)
+            .then(resp => resp.json())
+            .then(data =>{
+              setPosition(data);
+            });
+        }} 
+      >
+        <FormControl id="zip_field" type="text" placeholder="Zip Code" className="mr-sm-2" />
+        <Button type="submit" variant="outline-info">
+          Search
+        </Button>
       </Form>
     </Navbar>
   );
 }
 
-const MapView = () => {
-  const [position, setPosition] = useState([45, 45]);
+const MapView = props => {
+  const {position, setPosition} = props;
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((pos) => {
       const { latitude, longitude } = pos.coords;
@@ -40,14 +53,21 @@ const MapView = () => {
 }
 
 const App = () => {
+  const [position, setPosition] = useState([45, 45]);
   return (
     <>
-      <Header />
+      <Header
+        position={position}
+        setPosition={setPosition}
+      />
       <div className="row bg-secondary mt-3">
         <div className="col-md-2">
         </div>
         <div className="col-sm-12 col-md-8">
-          <MapView />
+          <MapView
+            position={position}
+            setPosition={setPosition}
+          />
         </div>
         <div className="col-md-2">
         </div>
